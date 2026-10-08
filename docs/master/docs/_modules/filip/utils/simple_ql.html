@@ -215,7 +215,12 @@
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Simple query statement</span>
 <span class="sd">    """</span>
+    <span class="c1"># attribute name: starts with a word character, followed by word</span>
+    <span class="c1"># characters or pairs of an allowed special character and a word</span>
+    <span class="c1"># character. Equivalent to the previously used nested-quantifier</span>
+    <span class="c1"># pattern, but deterministic and therefore matched in linear time.</span>
     <span class="n">_FIELD</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"\w(?:\w|[^\w&amp;,?/,\#,\*\s]\w)*"</span>
+    <span class="c1"># comparison value: characters allowed on the right-hand side</span>
     <span class="n">_VALUE</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"[\w.,:'-]+"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">left</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">op</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Operator</span><span class="p">],</span> <span class="n">right</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
