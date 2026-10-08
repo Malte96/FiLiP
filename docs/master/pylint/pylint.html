@@ -28,7 +28,7 @@
 
         
         <h2>Score</h2>
-        7.67 / 10
+        7.68 / 10
             
             (previous score: 7.67 / 10)
             
@@ -7724,10 +7724,9 @@
                 temporary_session.close()
                 self.session = original_session
 
-    # MANAGEMENT API
     def get_version(self) -&gt; Dict:
         &#34;&#34;&#34;
-        Gets version of IoT Agent
+        Gets version of Orion-LD context broker
         Returns:
             Dictionary with response
         &#34;&#34;&#34;
@@ -7754,6 +7753,7 @@
         json_schema_extra={&#34;example&#34;: &#34;Room&#34;},
         max_length=256,
         min_length=1,
+        # pattern=FiwareRegex.standard.value,  # Make it FIWARE-Safe
         frozen=True,
     )</pre></td>
             </tr>
@@ -7777,7 +7777,17 @@
             return destination_entity.id == destination_id
         except requests.RequestException as err:
             if err.response.status_code == 404:
-                return False</pre></td>
+                return False
+
+    def update_registration(self, registration: Registration):
+        &#34;&#34;&#34;
+        Only the fields included in the request are updated in the registration.
+
+        Args:
+            registration: Registration to update
+        Returns:
+
+        &#34;&#34;&#34;</pre></td>
             </tr>
             
             <tr>
@@ -7823,7 +7833,7 @@
         description=&#34;Id of an entity in an NGSI context broker. Allowed &#34;
         &#34;characters are the ones in the plain ASCII set, except &#34;
         &#34;the following ones: control characters, &#34;
-        &#34;whitespace, &amp;, ?, / and #.&#34;,</pre></td>
+        &#34;whitespace, &amp;, ?, / and #.&#34;</pre></td>
             </tr>
             
             <tr>
@@ -7935,7 +7945,6 @@ class IdType(str, Enum):
         &#34;ones: control characters, whitespace, &amp;, ?, / and #.&#34;,
         max_length=256,
         min_length=1,
-        # pattern=FiwareRegex.string_protect.value,
         # Make it FIWARE-Safe
     )</pre></td>
             </tr>
@@ -8205,7 +8214,9 @@ from geojson_pydantic import (
         &#34;By default, the entities are represented in normalized &#34;
         &#34;mode. However, using the attrsFormat modifier, a &#34;
         &#34;simplified representation mode can be requested.&#34;
-    )</pre></td>
+    )
+
+</pre></td>
             </tr>
             
             <tr>
@@ -8313,7 +8324,6 @@ from geojson_pydantic import (
 ==filip.clients.ngsi_v2.cb:[1689:1695]
         )
         headers = self.headers.copy()
-
         try:
             res = self.delete(url=url, headers=headers)
             if res.ok:
@@ -8409,7 +8419,6 @@ from geojson_pydantic import (
         &#34;ones: control characters, whitespace, &amp;, ?, / and #.&#34;,
         max_length=256,
         min_length=1,
-        # Make it FIWARE-Safe
     )</pre></td>
             </tr>
             
@@ -8571,10 +8580,8 @@ from filip.semantics.vocabulary import (
 ==filip.clients.ngsi_v2.cb:[1272:1277]
         headers = self.headers.copy()
         params = {}
-
         if entity_type:
             params.update({&#34;type&#34;: entity_type})
-
         try:</pre></td>
             </tr>
             
@@ -8765,7 +8772,7 @@ from pydantic import (
                 <td><code>cyclic-import</code></td>
                 <td>R0401</td>
                 <td></td>
-                <td><pre>Cyclic import (filip.clients.ngsi_v2 -&gt; filip.clients.ngsi_v2.iota)</pre></td>
+                <td><pre>Cyclic import (filip.clients.ngsi_v2 -&gt; filip.clients.ngsi_v2.client)</pre></td>
             </tr>
             
             <tr>
@@ -8786,16 +8793,6 @@ from pydantic import (
                 <td>R0401</td>
                 <td></td>
                 <td><pre>Cyclic import (filip.clients.ngsi_v2 -&gt; filip.clients.ngsi_v2.iota -&gt; filip.utils.filter)</pre></td>
-            </tr>
-            
-            <tr>
-                <td>1</td>
-                <td>0</td>
-                <td>refactor</td>
-                <td><code>cyclic-import</code></td>
-                <td>R0401</td>
-                <td></td>
-                <td><pre>Cyclic import (filip.clients.ngsi_v2 -&gt; filip.clients.ngsi_v2.client)</pre></td>
             </tr>
             
             <tr>
@@ -8835,7 +8832,7 @@ from pydantic import (
                 <td><code>cyclic-import</code></td>
                 <td>R0401</td>
                 <td></td>
-                <td><pre>Cyclic import (filip.semantics.vocabulary -&gt; filip.semantics.vocabulary.vocabulary)</pre></td>
+                <td><pre>Cyclic import (filip.semantics.vocabulary -&gt; filip.semantics.vocabulary.relation -&gt; filip.semantics.vocabulary.vocabulary)</pre></td>
             </tr>
             
             <tr>
@@ -8855,7 +8852,7 @@ from pydantic import (
                 <td><code>cyclic-import</code></td>
                 <td>R0401</td>
                 <td></td>
-                <td><pre>Cyclic import (filip.semantics.vocabulary -&gt; filip.semantics.vocabulary.relation -&gt; filip.semantics.vocabulary.vocabulary)</pre></td>
+                <td><pre>Cyclic import (filip.semantics.vocabulary -&gt; filip.semantics.vocabulary.vocabulary)</pre></td>
             </tr>
             
             <tr>
@@ -10385,16 +10382,6 @@ from pydantic import (
             </tr>
             
             <tr>
-                <td>13</td>
-                <td>0</td>
-                <td>error</td>
-                <td><code>import-error</code></td>
-                <td>E0401</td>
-                <td></td>
-                <td><pre>Unable to import &#39;regex&#39;</pre></td>
-            </tr>
-            
-            <tr>
                 <td>14</td>
                 <td>0</td>
                 <td>error</td>
@@ -10411,11 +10398,11 @@ from pydantic import (
                 <td><code>wrong-import-order</code></td>
                 <td>C0411</td>
                 <td></td>
-                <td><pre>standard import &#34;from typing import Union, List, Tuple, Any&#34; should be placed before &#34;import regex as re&#34;</pre></td>
+                <td><pre>standard import &#34;from typing import Union, List, Tuple, Any&#34; should be placed before &#34;from aenum import Enum&#34;</pre></td>
             </tr>
             
             <tr>
-                <td>142</td>
+                <td>144</td>
                 <td>8</td>
                 <td>convention</td>
                 <td><code>invalid-name</code></td>
@@ -10425,7 +10412,7 @@ from pydantic import (
             </tr>
             
             <tr>
-                <td>143</td>
+                <td>145</td>
                 <td>8</td>
                 <td>convention</td>
                 <td><code>invalid-name</code></td>
@@ -10435,7 +10422,7 @@ from pydantic import (
             </tr>
             
             <tr>
-                <td>160</td>
+                <td>162</td>
                 <td>8</td>
                 <td>refactor</td>
                 <td><code>no-else-return</code></td>
@@ -10445,7 +10432,7 @@ from pydantic import (
             </tr>
             
             <tr>
-                <td>198</td>
+                <td>209</td>
                 <td>12</td>
                 <td>convention</td>
                 <td><code>invalid-name</code></td>
@@ -10455,7 +10442,7 @@ from pydantic import (
             </tr>
             
             <tr>
-                <td>229</td>
+                <td>231</td>
                 <td>14</td>
                 <td>convention</td>
                 <td><code>invalid-name</code></td>
@@ -10465,7 +10452,7 @@ from pydantic import (
             </tr>
             
             <tr>
-                <td>235</td>
+                <td>237</td>
                 <td>31</td>
                 <td>convention</td>
                 <td><code>invalid-name</code></td>
@@ -10475,7 +10462,7 @@ from pydantic import (
             </tr>
             
             <tr>
-                <td>259</td>
+                <td>261</td>
                 <td>21</td>
                 <td>convention</td>
                 <td><code>invalid-name</code></td>
@@ -10485,7 +10472,7 @@ from pydantic import (
             </tr>
             
             <tr>
-                <td>274</td>
+                <td>276</td>
                 <td>21</td>
                 <td>convention</td>
                 <td><code>invalid-name</code></td>
@@ -10495,7 +10482,7 @@ from pydantic import (
             </tr>
             
             <tr>
-                <td>284</td>
+                <td>286</td>
                 <td>12</td>
                 <td>convention</td>
                 <td><code>invalid-name</code></td>
@@ -10505,7 +10492,7 @@ from pydantic import (
             </tr>
             
             <tr>
-                <td>292</td>
+                <td>294</td>
                 <td>22</td>
                 <td>convention</td>
                 <td><code>invalid-name</code></td>
@@ -10515,7 +10502,7 @@ from pydantic import (
             </tr>
             
             <tr>
-                <td>321</td>
+                <td>323</td>
                 <td>8</td>
                 <td>convention</td>
                 <td><code>invalid-name</code></td>
@@ -10525,7 +10512,7 @@ from pydantic import (
             </tr>
             
             <tr>
-                <td>323</td>
+                <td>325</td>
                 <td>12</td>
                 <td>convention</td>
                 <td><code>invalid-name</code></td>
@@ -11697,7 +11684,7 @@ from pydantic import (
             
             <tr>
                 <td>refactor</td>
-                <td>330</td>
+                <td>329</td>
             </tr>
             
             <tr>
@@ -11707,7 +11694,7 @@ from pydantic import (
             
             <tr>
                 <td>error</td>
-                <td>165</td>
+                <td>164</td>
             </tr>
             
             <tr>
@@ -11737,7 +11724,7 @@ from pydantic import (
             
             <tr>
                 <td>import-error</td>
-                <td>96</td>
+                <td>95</td>
             </tr>
             
             <tr>
@@ -12122,7 +12109,7 @@ from pydantic import (
             
             <tr>
                 <td>cyclic-import</td>
-                <td>11</td>
+                <td>10</td>
             </tr>
             
         </table>
@@ -12152,7 +12139,7 @@ from pydantic import (
             
             <tr>
                 <td>filip.utils.simple_ql</td>
-                <td>15</td>
+                <td>14</td>
             </tr>
             
             <tr>
@@ -12367,7 +12354,7 @@ from pydantic import (
             
             <tr>
                 <td>filip.semantics.vocabulary.relation</td>
-                <td>92</td>
+                <td>91</td>
             </tr>
             
         </table>
@@ -12397,7 +12384,7 @@ from pydantic import (
             
             <tr>
                 <td>filip/utils/simple_ql.py</td>
-                <td>15</td>
+                <td>14</td>
             </tr>
             
             <tr>
@@ -12612,7 +12599,7 @@ from pydantic import (
             
             <tr>
                 <td>filip/semantics/vocabulary/relation.py</td>
-                <td>92</td>
+                <td>91</td>
             </tr>
             
         </table>
